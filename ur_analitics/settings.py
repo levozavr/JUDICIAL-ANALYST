@@ -31,7 +31,8 @@ ALLOWED_HOSTS = [
                     '172.27.221.119'
                 ]
 
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'analitics',
 ]
 
 MIDDLEWARE = [

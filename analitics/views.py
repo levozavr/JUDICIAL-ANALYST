@@ -29,4 +29,5 @@ def upload_file(request):
     documents = Document.objects.all()
 
     # Render list page with the documents and the form
+    print(form)
     return render(request,'analitics/index.html',{'documents': documents, 'form': form})

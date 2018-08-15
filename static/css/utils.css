@@ -1,5 +1,19 @@
 .top-buffer-first { margin-top:65px; }
 
+.error-div { background-color: red }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -48,6 +62,7 @@
 
 }
 .file_upload.focus{
+    box-shadow: 0 0 5px rgba(0,30,255,0.4)
 }
 .file_upload > button{
     background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);

@@ -58,7 +58,9 @@ def analyze(text):
 
 def parse(filename):
     global obshiycountGK
+    obshiycountGK = 0
     global obshiycountNK
+    obshiycountNK = 0
 
     with open('./media/' + filename, encoding='cp1251') as file:
         contents = file.read()

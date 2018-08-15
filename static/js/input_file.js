@@ -1,9 +1,12 @@
 $(function(){
     var wrapper = $( ".file_upload" ),
         inp = wrapper.find( "input" ),
-        btn = wrapper.find( ".button" ),
-        lbl = wrapper.find( "mark" );
+        btn = wrapper.find( "button" ),
+        lbl = wrapper.find( "div" );
 
+    btn.focus(function(){
+        inp.focus()
+    });
     // Crutches for the :focus style:
     inp.focus(function(){
         wrapper.addClass( "focus" );

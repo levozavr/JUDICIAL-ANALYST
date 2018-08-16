@@ -1,54 +1,57 @@
-.top-buffer-first { margin-top:65px; }
+.top-buffer-first {
+    margin-top: 65px;
+}
 
-.error-div { background-color: red }
+.error-div {
+    background-color: red
+}
 
+.overflow-div-scroll {
+    overflow-x: hidden
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.file_upload{
+.file_upload {
     position: relative;
     overflow: hidden;
-    font-size: 1em;        /* example */
-    height: 2em;           /* example */
-    line-height: 2em       /* the same as height */
+    font-size: 1em; /* example */
+    height: 2em; /* example */
+    line-height: 2em /* the same as height */
+
 }
-.file_upload > button{
+
+.file_upload > button {
+    text-align: center;
+    vertical-align: top;
     float: right;
-    width: 8em;            /* example */
+    width: 8em; /* example */
     height: 100%
 }
-.file_upload > div{
-    padding-left: 1em      /* example */
+
+.file_upload > div {
+    padding-left: 1em /* example */
 }
-@media only screen and ( max-width: 500px ){  /* example */
-    .file_upload > div{
+
+@media only screen and ( max-width: 500px ) {
+    /* example */
+    .file_upload > div {
         display: none
     }
-    .file_upload > button{
+
+    .file_upload > button {
+        text-align: center;
+        vertical-align: top;
         width: 100%
     }
 }
-.file_upload input[type=file]{
+
+.file_upload input[type=file] {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     transform: scale(20);
-    letter-spacing: 10em;     /* IE 9 fix */
+    letter-spacing: 10em; /* IE 9 fix */
     -ms-transform: scale(20); /* IE 9 fix */
     opacity: 0;
     cursor: pointer
@@ -56,30 +59,36 @@
 
 /* Making it beautiful */
 
-.file_upload{
+.file_upload {
     border: 1px solid #ccc;
     border-radius: 3px;
 
 }
-.file_upload.focus{
-    box-shadow: 0 0 5px rgba(0,30,255,0.4)
-}
-.file_upload > button{
-    background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
-    transition: background-image 0.2s;
-    border: 1px solid rgba(0,0,0,0.1);
 
+.file_upload.focus {
+    box-shadow: 0 0 5px rgba(0, 30, 255, 0.4)
+}
+
+.file_upload > button {
+    background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+    transition: background-image 0.2s;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    vertical-align: top;
     border-radius: 2px;
     color: #333333;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis
-}
-.file_upload:hover > button{
+    text-overflow: ellipsis;
 
 }
-.file_upload:active > button{
 
-    box-shadow: 0 0 3px rgba(0,0,0,0.3) inset
+.file_upload:hover > button {
+
+}
+
+.file_upload:active > button {
+
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset
 }
 

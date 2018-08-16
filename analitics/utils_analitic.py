@@ -1,6 +1,5 @@
 import re
-import numpy as np
-import os
+
 arrNK = []
 arrGK = []
 
@@ -16,6 +15,7 @@ pattern2 = '(\W)((стат)(ья|ьи|ье|ей|ёй|ьей|ьёй|ьях)+)(((\
            '(\s)(налогов)(ый|ого|ым|ому|ом)(\s)(кодекс)(а|у|е|ом)+'
 pattern3 = '(\b)(((\s)[0-9]{1,5}(,)?)+)(\s)(гк)(\b)'
 pattern4 = '(\b)(((\s)[0-9]{1,5}(,)?)+)(\s)(нк)(\b)'
+
 
 def counter(text, codex):
     global countGK

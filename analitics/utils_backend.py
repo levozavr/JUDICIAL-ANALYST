@@ -9,7 +9,6 @@ from analitics.utils_analitic import parse
 def check_file_in_base(filename):
     documents = Document.objects.all()
     for doc in documents:
-        print(doc.name)
         if doc.name == filename:
             return (False, str(doc.docfile))
     return (True, '')

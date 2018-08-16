@@ -1,14 +1,63 @@
 .top-buffer-first {
     margin-top: 65px;
 }
+.bottom-buffer-first {
+    margin-bottom: 75px;
+}
+.top-buffer-second {
+    margin-top: 20px;
+}
+
+.div-middle-text {
+    vertical-align: middle;
+}
+
+.row-flex {
+    display: flex;
+    flex-flow: row wrap;
+}
+
 
 .error-div {
     background-color: red
 }
 
 .overflow-div-scroll {
-    overflow-x: hidden
+    overflow-x: hidden;
+    overflow-y: hidden;
+	word-break: break-all;
 }
+
+
+
+.box {
+    position: relative;
+}
+
+.box > div {
+    position: absolute;
+    top: 20%;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .file_upload {
     position: relative;

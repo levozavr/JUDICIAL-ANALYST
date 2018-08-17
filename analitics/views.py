@@ -1,15 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.template import RequestContext
-from analitics.models import Document
-from analitics.forms import DocumentForm
-from analitics.utils_analitic import parse
+from django.views.decorators.cache import cache_page
 from analitics.utils_backend import *
 from urllib.parse import unquote
 # Create your views here.
 
 
+@cache_page(600)
 def upload_file(request):
     # Handle file upload
     form = None

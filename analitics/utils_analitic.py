@@ -1,4 +1,6 @@
 import re
+import yargy
+from yargy import and_
 
 arrNK = []
 arrGK = []
@@ -73,9 +75,12 @@ def parse(filename):
         analyze(solution_parse)
     return (obshiycountNK, obshiycountGK)
 
-#parse('documents/2018/08/14/1_АС_897_решений_за_июль_2016_dsBofKz.txt')
 
-print(obshiycountGK)
-print(obshiycountNK)
-print(arrGK)
-print(arrNK)
+if __name__ == '__main__':
+
+    #parse('documents/2018/08/14/1_АС_897_решений_за_июль_2016_dsBofKz.txt')
+
+    print(obshiycountGK)
+    print(obshiycountNK)
+    print(arrGK)
+    print(arrNK)

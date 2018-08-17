@@ -7,17 +7,10 @@
 	   <div class="row top-buffer-first">
 	      <div class="col-md-6 col-md-offset-2">
              <!-- Upload form. Note enctype attribute! -->
-              <form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+              <form action="/" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                  <p>
-                      {% if error != '' %}
-                          <div class="error-div">
-                          {{ error }}
-                          </div>
-                      {% endif %}
-                  </p>
                 <p>{{ form.non_field_errors }}</p>
-                <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+                <p>{{ form.docfile.label_tag }} </p>
                 <p>
                     {{ form.docfile.errors }}
                     <div class="file_upload">
@@ -27,7 +20,7 @@
                     </div>
 
                 </p>
-                <p><input type="submit" value="Upload" class="btn btn-info"/></p>
+                <p><input type="submit" name="upload" value="Upload" class="btn btn-info"/></p>
             </form>
 	      </div>
 	   </div>
@@ -36,15 +29,29 @@
 
 <div id="list-of-docs">
 	<div class="container ">
-	   <div class="row top-buffer-first">
-	      <div class="col-md-6 col-md-offset-2 overflow-div-scroll">
+	   <div class="row top-buffer-first bottom-buffer-first">
+	      <div class="col-md-6 col-md-offset-2 ">
 	          <!-- List of uploaded documents -->
                 {% if documents %}
-                    <ul>
                     {% for document in documents %}
-                        <li><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                            <div class="container ">
+                                <div class="row top-buffer-second row-flex">
+                                    <div class="col-md-1 col-sm-2 ">
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="file" value="{{ document.docfile.url }}">
+                                            <input type="submit" name="analise" value="Analise" class="btn btn-info">
+                                        </form>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-8 overflow-div-scroll">
+                                        <a href="{{ document.docfile.url }}" >
+                                            {{ document.name }}</a>
+                                    </div>
+
+                                </div>
+                            </div>
                     {% endfor %}
-                    </ul>
                 {% else %}
                     <p>No documents.</p>
                 {% endif %}

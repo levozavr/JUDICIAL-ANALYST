@@ -12,9 +12,7 @@ def upload_file(request):
         return upload(request)
     elif request.method == 'POST' and 'analise' in request.POST:
         filename = unquote(unquote(request.POST['file'])).split('/media/')[1]
-        nk, gk = parse(filename)
-        return HttpResponse(f'удача!<br>упоминаний статей гражданского кодекса:{gk}<br>'
-                            f'упоминаний статей налогового кодекса:{nk}')
+        return return_response(filename)
     else:
         form = DocumentForm()
 

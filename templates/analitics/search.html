@@ -1,0 +1,18 @@
+{% extends 'analitics/base.html' %}
+{% block titel %}
+   Поиск
+{% endblock %}
+
+{% block content %}
+    <!--<main>-->
+<br><br><br><br><br>
+<form action="/" method="post" enctype="multipart/form-data">
+    <p class="norm_font">
+        {% csrf_token %}
+        <label for="find" hidden>Text:</label>
+        <input type="text" name="find" class="input-big" placeholder="Text to search..." />
+        <input type="submit" name="upload" value="Search" class="norm_font btn-big"/>
+    </p>
+</form>
+
+{% endblock %}

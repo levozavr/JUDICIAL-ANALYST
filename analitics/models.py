@@ -12,3 +12,5 @@ class Document(models.Model):
 
     def __str__(self):
         return 'Document: ' + self.name
+
+

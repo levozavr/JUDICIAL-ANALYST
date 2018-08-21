@@ -6,6 +6,7 @@ from analitics.models import Document
 from analitics.forms import DocumentForm
 from analitics.parser.main import parse, LINK
 from datetime import datetime
+import os
 def check_file_in_base(filename):
     documents = Document.objects.all()
     for doc in documents:
@@ -32,8 +33,8 @@ def upload(request):
         newdoc.save()
         try:
             parse(str(newdoc.docfile))
-
         except Exception:
+            os.remove('./media/' + str(request.FILES['docfile']))
             newdoc.delete()
             return HttpResponse(f"[ERROR {datetime.now()}]: Not right format of file")
         return HttpResponseRedirect('/')

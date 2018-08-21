@@ -6,7 +6,7 @@
 
 {% block content %}
 <!--<main>-->
-    <br><br><br><br><br>
+ <td width="80%" height="100%" >
     <form action="/update" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <p>{{ form.non_field_errors }}</p>
@@ -20,5 +20,5 @@
     <br>
     <br>
     <iframe width="50%" height="35%" src="https://www.youtube.com/embed/6G4Su9CYLig" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
+ </td>
 {% endblock %}

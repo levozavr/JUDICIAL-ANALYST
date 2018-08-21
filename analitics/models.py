@@ -5,12 +5,21 @@ from django.db import models
 
 class Document(models.Model):
 
-    name = models.CharField(max_length=256)
-    analised_information = models.TextField()
-    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
-
+    name = models.TextField(primary_key=True)
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d', unique=True)
 
     def __str__(self):
         return 'Document: ' + self.name
 
 
+class Json(models.Model):
+    doc = models.OneToOneField(
+        Document,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+
+    text = models.TextField()
+
+    def __str__(self):
+        return 'Document: ' + self.doc.name

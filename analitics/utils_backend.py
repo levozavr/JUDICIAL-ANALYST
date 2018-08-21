@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from analitics.models import Document
+from analitics.models import Document, Json
 from analitics.forms import DocumentForm
 from analitics.parser.main import parse
 from datetime import datetime
@@ -28,12 +28,18 @@ def upload(request):
         newdoc = Document(docfile=request.FILES['docfile'], name=str(request.FILES['docfile']))
         newdoc.save()
         try:
-            parse(str(newdoc.docfile))
+            document = parse(str(newdoc.docfile))
         except Exception:
             os.remove('./media/' + str(newdoc.docfile))
             newdoc.delete()
             return HttpResponse(f"[ERROR {datetime.now()}]: Not right format of file")
+        base_insert(document, newdoc)
         return HttpResponseRedirect('/')
 
-def base_insert():
-    pass
+
+def base_insert(doc, doc_model):
+        js = Json(doc=doc_model, text=doc)
+        js.save()
+        with open('./tmp'+doc_model.name, 'w') as f:
+            f.write(doc)
+

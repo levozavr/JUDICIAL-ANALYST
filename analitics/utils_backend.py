@@ -4,21 +4,17 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from analitics.models import Document
 from analitics.forms import DocumentForm
-from analitics.parser.main import parse, LINK
+from analitics.parser.main import parse
 from datetime import datetime
 import os
+
+
 def check_file_in_base(filename):
     documents = Document.objects.all()
     for doc in documents:
         if doc.name == filename:
             return (False, str(doc.docfile))
     return (True, '')
-
-
-def return_response(filename):
-    parse(str(filename))
-    res = LINK
-    return HttpResponse(str(res))
 
 
 def upload(request):
@@ -34,7 +30,7 @@ def upload(request):
         try:
             parse(str(newdoc.docfile))
         except Exception:
-            os.remove('./media/' + str(request.FILES['docfile']))
+            os.remove('./media/' + str(newdoc.docfile))
             newdoc.delete()
             return HttpResponse(f"[ERROR {datetime.now()}]: Not right format of file")
         return HttpResponseRedirect('/')

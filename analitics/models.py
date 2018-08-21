@@ -6,7 +6,7 @@ from django.db import models
 class Document(models.Model):
 
     name = models.CharField(max_length=256)
-    analised_information = models.CharField(max_length=2048)
+    analised_information = models.TextField()
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
 
 

@@ -8,4 +8,5 @@ class DocumentForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(DocumentForm, self).__init__(*args, **kwargs)
+        self.fields['docfile'].widget.attrs.update({'class': 'norm_font border btn-big'})
         self.fields['docfile'].widget.attrs.update({'accept': '.txt'})

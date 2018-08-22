@@ -25,7 +25,7 @@ SECRET_KEY = '%ohb0&8)%b#uf-a7l8x!ztsgb4)8^()^x9pre7!6ln**z8hrq#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
+'''
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -58,7 +58,7 @@ LOGGING = {
         },
     }
 }
-
+'''
 ALLOWED_HOSTS = ['*']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

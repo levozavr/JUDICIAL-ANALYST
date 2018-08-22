@@ -1,76 +1,74 @@
 {% load cache %}
-{% cache 600 header %}
-<!DOCTYPE html>
+{% cache 1 header %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>black magic</title>
+    <title>
+        {% block titel %}{% endblock %}
+    </title>
+
     {% load static %}
-    <link href="{%  static "/css/bootstrap.min.css" %}" rel="stylesheet">
-	<link href="{%  static "/css/bootstrap-theme.min.css" %}" rel="stylesheet">
 	<link href="{%  static "/css/utils.css" %}" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="{%  static "/js/bootstrap.min.js" %}"></script>
-    <script src="{%  static "/js/input_file.js" %}"></script>
 
 </head>
 
-<body>
+<body ><!--bgcolor="#dfdfdf">
 <!--<header>-->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            	<span class="sr-only">Toggle navigation</span>
-            	<span class="icon-bar"></span>
-            	<span class="icon-bar"></span>
-            	<span class="icon-bar"></span>
-        	</button>
-        	<a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse ">
-        	<ul class="nav navbar-nav navbar-right">
-                <li class=""><a href="#">analtze</a> </li>
-            	<li class=""><a href="/settings/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
-        	</ul>
-        </div>
-    </div>
-</nav>
-{% endcache %}
+<table   width="100%"  style="height: 100%;"><!--bgcolor="#dfdfdf"-->
+<tr align="center" style="height: 10%;"><td style="height: 5%;">
+    <table width="90%"  style="height: 100%;" ><!--bgcolor="#fdf9b0"-->
+            <tr valign="middle" align="center" >
+                <td width="15%" style="font-size: 150%">
+                    JUDYST
+                </td>
+                <td width="75%" ></td>
+                <td width="5%">
+                    <div class="parent" >
+                        <div class="child">
+                        <a href="/">Search</a>
+                            </div>
+                    </div>
+                </td>
+                <td width="5%" >
+                    <div class="parent">
+                        <div class="child">
+                        <a href="/update">Update</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+    </table>
+</td></tr>
+<tr align="center" style="height: 100%;"><td style="height: 100%;">
+    <table width="100%" style="height: 100%;"> <!--bgcolor="#dfdfdf"-->
+            <tr valign="top" align="center">
+                <td width="=10%" height="5%"><!--bgcolor="#dfdfdf"--></td>
+               <!--bgcolor="#FFFEF4"-->
+                    {% block content %}
+                    {% endblock %}
 
-{% block content %}
-{% endblock %}
+                <td width="=10%" height="100%" ></td><!--bgcolor="#dfdfdf"-->
+            </tr>
+    </table>
+</td></tr>
+<tr align="center" style="height: 5%;"><td width="100%" style="height: 5%;">
+    <table width="90%" style="height: 5%;" ><!--bgcolor="#fdf9b0"-->
+            <tr valign="bottom" align="right" >
+                <td width="100%">
+                    <p>© 2018 - 2018<br><a href="https://vk.com/mrsbarsuk">DreamTeam</a> All rights reserved.</p>
+                </td>
+            </tr>
+    </table>
+</td></tr>
+
+</table>
 
 
 
 
-{% cache 600 footer %}
-<!--<footer-->
-<nav class="navbar navbar-default navbar-fixed-bottom">
-  	<div class="container">
-	  	<div class="navbar-nav">
-	        <ul class="nav  navbar-right navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	            <li><p> © 2017 - 2018  <a href="https://vk.com/itchert">RobotLab</a>| All rights reserved.</p></li>
-	        </ul>
-	    </div>
-	    <div id="navbar" class="navbar-collapse collapse ">
-	        <ul class="nav navbar-nav navbar-right">
-	            <li> <br><p>© 2017 - 2018  <a href="https://vk.com/mrsbarsuk">DreamTeam</a>| All rights reserved.</p></li>
-	        </ul>
-	    </div>
- 	</div>
-</nav>
-
-
-
-<script type="text/javascript">
-	$(".nav a").on("click", function(){
-   $(".nav").find(".active").removeClass("active");
-   $(this).parent().addClass("active");
-});
-</script>
 
 </body>
 </html>

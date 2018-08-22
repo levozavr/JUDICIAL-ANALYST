@@ -1,29 +1,55 @@
-import re
-import yargy
-from yargy import and_
+from yargy import (
+    Parser,
+    rule,
+    and_, or_
+)
+from yargy.pipelines import morph_pipeline
+from yargy.interpretation import fact, attribute
+from yargy.predicates import (
+    eq, gte, lte, length_eq,
+    dictionary, normalized,
+)
 
-arrNK = []
-arrGK = []
+NUM = and_(gte(1), lte(1000))
 
-countGK = 0
-countNK = 0
-obshiycountGK = 0
-obshiycountNK = 0
+NUMBERS = rule(NUM,
+               rule(eq(','), NUM).repeatable().optional())
 
+Entry = fact(
+    'Entry',
+    ['type', 'numbers']
+)
 
-pattern1 = '(\W)((стат)(ья|ьи|ье|ей|ёй|ьей|ьёй|ьях)+)(((\s)[0-9]{1,5}(,)?)+)' \
-           '(\s)(гражданск)(ий|ого|им|ому|ом)(\s)(кодекс)(а|у|е|ом)+'
-pattern2 = '(\W)((стат)(ья|ьи|ье|ей|ёй|ьей|ьёй|ьях)+)(((\s)[0-9]{1,5}(,)?)+)' \
-           '(\s)(налогов)(ый|ого|ым|ому|ом)(\s)(кодекс)(а|у|е|ом)+'
-pattern3 = '(\b)(((\s)[0-9]{1,5}(,)?)+)(\s)(гк)(\b)'
-pattern4 = '(\b)(((\s)[0-9]{1,5}(,)?)+)(\s)(нк)(\b)'
+GK = rule(
+    or_(rule(normalized('статья')),
+        rule('ст', eq('.').optional())
+        ),
+    NUMBERS.interpretation(Entry.numbers),
+    morph_pipeline({
+        'гк',
+        'гражданский кодекс',
+    }).interpretation(Entry.type.const('ГК')),
+
+).interpretation(Entry)
+
+NK = rule(
+    or_(rule(normalized('статья')),
+        rule('ст', eq('.').optional())
+        ),
+    NUMBERS.interpretation(Entry.numbers),
+    morph_pipeline({
+        'нк',
+        'налоговый кодекс',
+    }).interpretation(Entry.type.const('НК')),
+
+).interpretation(Entry)
 
 
 def counter(text, codex):
     global countGK
-    global obshiycountGK
+    global generalGK
     global countNK
-    global obshiycountNK
+    global generalNK
 
     for s in range(len(text)):
         a = list(text[s])
@@ -31,12 +57,10 @@ def counter(text, codex):
         # print(b)
         if codex == 'гк':
             countGK += (len([int(l) for l in b.split() if l.isdigit()]) - 1)
-            arrGK.append(countGK)
         elif codex == 'нк':
             countNK += (len([int(l) for l in b.split() if l.isdigit()]) - 1)
-            arrNK.append(countNK)
-    obshiycountGK += countGK
-    obshiycountNK += countNK
+    generalGK += countGK
+    generalNK += countNK
 
 
 def analyze(text):
@@ -58,14 +82,13 @@ def analyze(text):
     countNK = 0
 
 
-def parse(filename):
-    global obshiycountGK
-    obshiycountGK = 0
-    global obshiycountNK
-    obshiycountNK = 0
+def parse(contents):
+    global generalGK
+    generalGK = 0
+    global generalNK
+    generalNK = 0
 
-    with open('./media/' + filename, encoding='cp1251') as file:
-        contents = file.read()
+
     contents = contents.lower().replace(',', '')
     for solution in contents.split('------------------------------------------------------------------'):
         if solution.find('установил:') == -1 or solution.find('постановил:') == -1:
@@ -73,14 +96,50 @@ def parse(filename):
         solution_parse = solution.split('установил:')[1]
         solution_parse = solution_parse.split('постановил:')[0]
         analyze(solution_parse)
-    return (obshiycountNK, obshiycountGK)
+    return (generalNK, generalGK)
 
 
 if __name__ == '__main__':
 
-    #parse('documents/2018/08/14/1_АС_897_решений_за_июль_2016_dsBofKz.txt')
+    with open('лёва.txt') as file:
+        contents = file.read()
 
-    print(obshiycountGK)
-    print(obshiycountNK)
-    print(arrGK)
-    print(arrNK)
+    print(parse(contents))
+
+    NUM = and_(gte(1), lte(1000))
+
+    NUMBERS = rule(NUM,
+                   rule(eq(','), NUM).repeatable().optional())
+
+    Entry = fact(
+        'Entry',
+        ['type', 'numbers']
+    )
+
+    GK = rule(
+        or_(rule(normalized('статья')),
+            rule('ст', eq('.').optional())
+            ),
+        NUMBERS.interpretation(Entry.numbers),
+        morph_pipeline({
+            'гк',
+            'гражданский кодекс',
+        }).interpretation(Entry.type.const('ГК')),
+
+    ).interpretation(Entry)
+
+    NK = rule(
+        or_(rule(normalized('статья')),
+            rule('ст', eq('.').optional())
+            ),
+        NUMBERS.interpretation(Entry.numbers),
+        morph_pipeline({
+            'нк',
+            'налоговый кодекс',
+        }).interpretation(Entry.type.const('НК')),
+
+    ).interpretation(Entry)
+
+
+    for match in Parser(GR).findall('лёва.txt'):
+        print(match.fact)

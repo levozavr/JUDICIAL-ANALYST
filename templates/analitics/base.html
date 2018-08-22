@@ -1,16 +1,22 @@
 {% load cache %}
+
 {% cache 1 header %}
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
+ {% load static %}
+ {% load pwa %}
 <head>
+{% progressive_web_app_meta %}
 	<meta charset="utf-8">
+    <meta name="theme-color" content="#ffffff">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
         {% block titel %}{% endblock %}
     </title>
 
-    {% load static %}
+
 	<link href="{%  static "/css/utils.css" %}" rel="stylesheet">
 
 </head>

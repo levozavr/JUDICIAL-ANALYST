@@ -16,7 +16,7 @@ def parse(filename):
     dict_of_solution = {}
 
     for num_sol, solution in document:
-        dict_of_links['solutions'].append({'number': num_sol, 'lines': []})
+        dict_of_links['solutions'].append({'number': num_sol, 'name': '', 'lines': []})
         for num_line, line in enumerate(solution.split('\n')):
             dict_of_links['solutions'][num_sol]['lines'].append({'number': num_line, 'text': line, 'links': []})
 
@@ -27,6 +27,8 @@ def parse(filename):
         dict_of_solution.update({num_sol: {}})
         flag_analyse = False
         for num_line, line in enumerate(solution.split('\n')):
+            if num_line == 1:
+                dict_of_links['solutions'][num_sol]['name'] = line
             if 'установил:' in line:
                 flag_analyse = True
             if 'постановил:' in line or 'определил:' in line:

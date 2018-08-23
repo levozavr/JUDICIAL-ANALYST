@@ -3,23 +3,25 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from analitics.models import Document, Json
 from analitics.forms import DocumentForm
-from analitics.parser.main import parse, documents
+from analitics.parser.main import parse
+import analitics.parser.main as magic
 from datetime import datetime
+from analitics.finder.main import searcher
 import ast
 import os
 
 
 def load_models():
     for item in Json.objects.all():
-        documents.append(ast.literal_eval(item.text))
+        magic.documents.append(ast.literal_eval(item.text))
 
 
 load_models()
 
 
 def check_file_in_base(filename):
-    documents = Document.objects.all()
-    for doc in documents:
+    documents_ = Document.objects.all()
+    for doc in documents_:
         if doc.name == filename:
             return False, str(doc.docfile)
     return True, ''
@@ -51,3 +53,32 @@ def base_insert(doc, doc_model):
         with open('./tmp'+doc_model.name, 'w') as f:
             f.write(doc)
 
+
+def give_links(request):
+    try:
+        search_str = request.GET['link']
+        links = searcher(search_str)
+    except Exception:
+        return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")
+    answer = []
+    for link in links:
+        ans = {'href': f"/result?doc_name={link['place']['doc_name']}&sol_num={link['place']['sol_num']}"}
+        ans.update({'text': link['text']})
+        answer.append(ans)
+    return render(request, 'analitics/result.html', {'links': answer})
+
+
+def give_solutions(request):
+    try:
+        sol_num = request.GET['sol_num']
+        doc_name = request.GET['doc_name']
+        for doc in magic.documents:
+            if doc['name'] == doc_name:
+                ans = []
+                for line in doc['solutions'][int(sol_num)]['lines']:
+                    ans.append(line['text'])
+                return render(request, 'analitics/solution.html',
+                              {'text': ans, 'name': doc['solutions'][int(sol_num)]['name']})
+
+    except Exception:
+        return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")

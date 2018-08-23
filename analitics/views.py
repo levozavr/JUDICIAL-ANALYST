@@ -15,7 +15,6 @@ def upload_file(request):
     return render(request, 'analitics/update.html', {'form': form})
 
 
-
 @cache_page(0)
 def search(request):
     if request.method == 'POST':
@@ -34,31 +33,7 @@ def search(request):
 @cache_page(0)
 def result(request):
     if request.method == 'GET' and 'link' in request.GET:
-        try:
-            search_str = request.GET['link']
-            links = searcher(search_str)
-        except Exception:
-            return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")
-        answer = []
-        for link in links:
-            ans = {'href': f"/result?doc_name={link['place']['doc_name']}&sol_num={link['place']['sol_num']}"}
-            ans.update({'text': link['text']})
-            answer.append(ans)
-        return render(request, 'analitics/result.html', {'links': answer})
+        return give_links(request)
     if request.method == 'GET' and 'doc_name' in request.GET and 'sol_num' in request.GET:
-        try:
-            sol_num = request.GET['sol_num']
-            doc_name = request.GET['doc_name']
-            for doc in documents:
-                if doc['name'] == doc_name:
-
-                    ans = []
-                    for line in doc['solutions'][int(sol_num)]['lines']:
-                        ans.append(line['text'])
-                        print(line['text'])
-                    return render(request, 'analitics/solution.html',
-                                  {'text': ans, 'name': doc['solutions'][int(sol_num)]['name']})
-
-        except Exception:
-            return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")
+        return give_solutions(request)
     return HttpResponseRedirect('/')

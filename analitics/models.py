@@ -16,7 +16,6 @@ class Json(models.Model):
     doc = models.OneToOneField(
         Document,
         on_delete=models.CASCADE,
-        primary_key=True,
     )
 
     text = models.TextField()

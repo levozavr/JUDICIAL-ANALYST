@@ -36,5 +36,5 @@ def result(request):
     if request.method == 'GET' and 'link' in request.GET:
         return give_links(request)
     if request.method == 'GET' and 'doc_name' in request.GET and 'sol_num' in request.GET:
-        return give_solutions()
+        return give_solutions(request)
     return HttpResponseRedirect('/')

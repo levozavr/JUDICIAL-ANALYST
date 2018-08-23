@@ -1,6 +1,6 @@
 from django.views.decorators.cache import cache_page
 from analitics.utils_backend import *
-from urllib.parse import unquote
+from analitics.finder.main import searcher
 # Create your views here.
 
 
@@ -18,8 +18,47 @@ def upload_file(request):
 
 @cache_page(0)
 def search(request):
-    return render(request, 'analitics/search.html', {})
+    if request.method == 'POST':
+        try:
+            search_str = request.POST['find']
+            links = searcher(search_str)
+        except Exception:
+            links = []
+        if len(links) == 0:
+            return render(request, 'analitics/search.html', {'error': "We don't find anything..."})
+        return HttpResponseRedirect(f'/result?link={search_str}')
+
+    return render(request, 'analitics/search.html', {'error': ''})
 
 
-#TODO: name of project : judical analyst - judyst
-#TODO: create issue for Tinkoff
+@cache_page(0)
+def result(request):
+    if request.method == 'GET' and 'link' in request.GET:
+        try:
+            search_str = request.GET['link']
+            links = searcher(search_str)
+        except Exception:
+            return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")
+        answer = []
+        for link in links:
+            ans = {'href': f"/result?doc_name={link['place']['doc_name']}&sol_num={link['place']['sol_num']}"}
+            ans.update({'text': link['text']})
+            answer.append(ans)
+        return render(request, 'analitics/result.html', {'links': answer})
+    if request.method == 'GET' and 'doc_name' in request.GET and 'sol_num' in request.GET:
+        try:
+            sol_num = request.GET['sol_num']
+            doc_name = request.GET['doc_name']
+            for doc in documents:
+                if doc['name'] == doc_name:
+
+                    ans = []
+                    for line in doc['solutions'][int(sol_num)]['lines']:
+                        ans.append(line['text'])
+                        print(line['text'])
+                    return render(request, 'analitics/solution.html',
+                                  {'text': ans, 'name': doc['solutions'][int(sol_num)]['name']})
+
+        except Exception:
+            return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")
+    return HttpResponseRedirect('/')

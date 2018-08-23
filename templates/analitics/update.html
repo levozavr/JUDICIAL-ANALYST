@@ -10,10 +10,11 @@
     <form action="/update" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <p>{{ form.non_field_errors }}</p>
-        <p class="norm_font"><label for="pass">Password:</label> <input type="password" name="pass" class="norm_font"> </p>
+        <p class="norm_font"><label for="pass">Password:</label> <input type="password" name="pass" class="norm_font input-pass"> </p>
 
             {{ form.docfile.errors }}
             {{ form.docfile }}
+        &nbsp;
         <input type="submit" name="upload" value="Upload" class="norm_font btn-big"/>
     </form>
     <br>

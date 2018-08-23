@@ -15,7 +15,6 @@ def upload_file(request):
     return render(request, 'analitics/update.html', {'form': form})
 
 
-
 @cache_page(0)
 def search(request):
     if request.method == 'POST':

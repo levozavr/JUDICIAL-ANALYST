@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from analitics.models import Document, Json
 from analitics.forms import DocumentForm
-from analitics.parser.main import parse, documents
+from analitics.parser.main import parse
+import analitics.parser.main as magic
 from datetime import datetime
 from analitics.finder.main import searcher
 import ast
@@ -12,15 +13,15 @@ import os
 
 def load_models():
     for item in Json.objects.all():
-        documents.append(ast.literal_eval(item.text))
+        magic.documents.append(ast.literal_eval(item.text))
 
 
 load_models()
 
 
 def check_file_in_base(filename):
-    documents = Document.objects.all()
-    for doc in documents:
+    documents_ = Document.objects.all()
+    for doc in documents_:
         if doc.name == filename:
             return False, str(doc.docfile)
     return True, ''
@@ -71,7 +72,7 @@ def give_solutions(request):
     try:
         sol_num = request.GET['sol_num']
         doc_name = request.GET['doc_name']
-        for doc in documents:
+        for doc in magic.documents:
             if doc['name'] == doc_name:
                 ans = []
                 for line in doc['solutions'][int(sol_num)]['lines']:

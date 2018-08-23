@@ -20,7 +20,6 @@ def searcher(text):
                             and link['document'] == text['document']:
                         links.append(link)
 
-    print(len(links))
     return links
 
 

@@ -41,7 +41,6 @@ def create_dict_of_solutions(document):
                 if num_begin != -1 and end_module.search(word) is not None:
                     if num_word - num_begin < 19:
                         dict_of_solution[num_sol][num_line].append((num_begin, num_word))
-                        print(num_begin, num_word)
                     num_begin = -1
     return dict_of_solution
 

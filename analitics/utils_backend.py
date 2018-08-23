@@ -77,7 +77,6 @@ def give_solutions(request):
                 ans = []
                 for line in doc['solutions'][int(sol_num)]['lines']:
                     ans.append(line['text'])
-                    print(line['text'])
                 return render(request, 'analitics/solution.html',
                               {'text': ans, 'name': doc['solutions'][int(sol_num)]['name']})
 

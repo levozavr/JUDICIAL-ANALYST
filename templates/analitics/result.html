@@ -1,0 +1,18 @@
+{% extends 'analitics/base.html' %}
+{% block titel %}
+   Результат
+{% endblock %}
+
+{% block content %}
+    <!--<main>-->
+     <td width="80%" height="100%" align="left" valign="top">
+     {% if links  %}
+        {% for link in links %}
+            <p>
+                <a href="{{ link.href }}">{{ link.text}}</a>
+            </p>
+         {% endfor %}
+     {% endif %}
+     </td>
+
+{% endblock %}

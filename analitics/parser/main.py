@@ -2,6 +2,7 @@ from analitics.parser.utils import read_file_line_by_line, begin_module, end_mod
 
 documents = []
 
+
 #TODO: Ulyana try to rewrite this code more handsome, please
 #TODO: add short forms of codex withot RF
 def parse(filename):
@@ -10,8 +11,7 @@ def parse(filename):
     :param filename: the way to the file in media folder
     :return: a data structure for the document
     """
-    #gen = read_file_line_by_line('./media/' + filename, code='cp1251')
-    gen = read_file_line_by_line(filename, code='cp1251')
+    gen = read_file_line_by_line('./media/' + filename, code='cp1251')
     name = filename.split('/')
     name = name[len(name)-1]
     document = [_ for _ in enumerate(gen)]

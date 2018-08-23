@@ -1,20 +1,28 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.template import RequestContext
 from analitics.models import Document, Json
 from analitics.forms import DocumentForm
-from analitics.parser.main import parse
+from analitics.parser.main import parse, documents
 from datetime import datetime
+import ast
 import os
+
+
+def load_models():
+    for item in Json.objects.all():
+        documents.append(ast.literal_eval(item.text))
+
+
+load_models()
 
 
 def check_file_in_base(filename):
     documents = Document.objects.all()
     for doc in documents:
         if doc.name == filename:
-            return (False, str(doc.docfile))
-    return (True, '')
+            return False, str(doc.docfile)
+    return True, ''
 
 
 def upload(request):

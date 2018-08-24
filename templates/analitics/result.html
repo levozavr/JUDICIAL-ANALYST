@@ -6,10 +6,10 @@
 {% block content %}
     <!--<main>-->
      <td width="80%" height="100%" align="left" valign="top">
-     {% if links  %}
-        {% for link in links %}
+     {% if sols %}
+        {% for sol in sols %}
             <p>
-                <a href="{{ link.href }}">{{ link.text}}</a>
+                <a href="{{ sol.href }}">{{ sol.text}}</a>
             </p>
          {% endfor %}
      {% endif %}

@@ -1,6 +1,6 @@
 from django.views.decorators.cache import cache_page
 from analitics.utils_backend import *
-from urllib.parse import unquote
+from analitics.finder.main import searcher
 # Create your views here.
 
 
@@ -15,11 +15,25 @@ def upload_file(request):
     return render(request, 'analitics/update.html', {'form': form})
 
 
-
 @cache_page(0)
 def search(request):
-    return render(request, 'analitics/search.html', {})
+    if request.method == 'POST':
+        try:
+            search_str = request.POST['find']
+            links = searcher(search_str)
+        except Exception:
+            links = []
+        if len(links) == 0:
+            return render(request, 'analitics/search.html', {'error': "We don't find anything..."})
+        return HttpResponseRedirect(f'/result?link={search_str}')
+
+    return render(request, 'analitics/search.html', {'error': ''})
 
 
-#TODO: name of project : judical analyst - judyst
-#TODO: create issue for Tinkoff
+@cache_page(0)
+def result(request):
+    if request.method == 'GET' and 'link' in request.GET:
+        return give_links(request)
+    if request.method == 'GET' and 'doc_name' in request.GET and 'sol_num' in request.GET:
+        return give_solutions(request)
+    return HttpResponseRedirect('/')

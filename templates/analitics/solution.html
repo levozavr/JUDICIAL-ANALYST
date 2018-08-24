@@ -1,0 +1,16 @@
+{% extends 'analitics/base.html' %}
+{% block titel %}
+   {{ name }}
+{% endblock %}
+
+{% block content %}
+    <!--<main>-->
+     <td width="80%" height="100%" align="left" valign="top">
+     {% if text  %}
+        {% for line in text %}
+            {{ line }}<br>
+         {% endfor %}
+     {% endif %}
+     </td>
+
+{% endblock %}

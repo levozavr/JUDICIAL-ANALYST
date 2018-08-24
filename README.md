@@ -1,4 +1,4 @@
-# ur_analitics
+#UDICIAL ANALYST
 
 Web-service for finding links in judgment.
 

@@ -1,19 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from analitics.models import Document, Json
+from analitics.models import Document
 from analitics.forms import DocumentForm
 from analitics.parser.main import parse
 import analitics.parser.main as magic
 from datetime import datetime
 from analitics.finder.main import searcher
-import ast
 import os
 
 
 def load_models():
-    for item in Json.objects.all():
-        magic.documents.append(ast.literal_eval(item.text))
+    try:
+        for item in Document.objects.all():
+            parse(str(item.docfile))
+    except Exception:
+        print(f"[ERROR {datetime.now()}] no models was loaded")
 
 
 load_models()
@@ -38,26 +40,20 @@ def upload(request):
         newdoc = Document(docfile=request.FILES['docfile'], name=str(request.FILES['docfile']))
         newdoc.save()
         try:
-            document = parse(str(newdoc.docfile))
+            parse(str(newdoc.docfile))
         except Exception:
             os.remove('./media/' + str(newdoc.docfile))
             newdoc.delete()
             return HttpResponse(f"[ERROR {datetime.now()}]: Not right format of file")
-        base_insert(document, newdoc)
         return HttpResponseRedirect('/')
 
-
-def base_insert(doc, doc_model):
-        js = Json(doc=doc_model, text=doc)
-        js.save()
-        with open('./tmp'+doc_model.name, 'w') as f:
-            f.write(doc)
 
 
 def give_links(request):
     try:
         search_str = request.GET['link']
         links = searcher(search_str)
+        print(links)
     except Exception:
         return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")
     answer = []

@@ -73,7 +73,7 @@ def parse(filename):
                                                     ['lines'][key_line]['text'].split(' ')):
                         if line[0] <= num_word <= line[1]:
                             link_text += word+' '
-                    place = {'doc_name': name, 'sol_num': key_sol,
+                    place = {'doc_name': name, 'sol_name': dict_of_links['solutions'][key_sol]['name'], 'sol_num': key_sol,
                              'line_num': key_line, 'begin': line[0], 'end': line[1]}
                     result = LinkFinder(clear_text(full_form(link_text.lower()), dict_of_replace)).mining()
                     if result:
@@ -85,4 +85,3 @@ def parse(filename):
                         link = {'text': link_text, 'essence': '', 'number': '', 'document': '', 'place': place}
                         dict_of_links['solutions'][key_sol]['lines'][key_line]['links'].append(link)
     documents.append(dict_of_links)
-    return str(dict_of_links)

@@ -1,5 +1,5 @@
 # ur_analitics
 
+Web-service for finding links in judgment.
 
-#dependensis
-pip install pymorphy2[fast], django, django-progressive-web-app
+For starting server run command: sh strat.sh

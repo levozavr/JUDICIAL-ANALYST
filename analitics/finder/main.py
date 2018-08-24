@@ -9,17 +9,34 @@ def structure(text):
     return link
 
 
-def searcher(text):
+def searcher_links(text, sol_number, doc_name):
     text = structure(text)
     links = []
     for doc in magic.documents:
-        for sol in doc['solutions']:
-            for line in sol['lines']:
-                for link in line['links']:
-                    if link['essence'] == text['essence'] and link['number'] == text['number'] \
-                            and link['document'] == text['document']:
-                        links.append(link)
-
+        if doc['name'] != doc_name:
+            continue
+        for line in doc['solutions'][int(sol_number)]['lines']:
+            for link in line['links']:
+                if link['essence'] == text['essence'] and link['number'] == text['number'] \
+                        and link['document'] == text['document']:
+                    links.append({'begin': link['place']['begin'], 'end': link['place']['end'],
+                                  'num_line': link['place']['line_num']})
     return links
 
 
+def searcher_sols(text):
+    text = structure(text)
+    sols = []
+    for doc in magic.documents:
+        for sol in doc['solutions']:
+            flag = False
+            for line in sol['lines']:
+                if flag:
+                    break
+                for link in line['links']:
+                    if link['essence'] == text['essence'] and link['number'] == text['number'] \
+                            and link['document'] == text['document']:
+                        sols.append({'number': sol['number'], 'name': sol['name'], 'doc_name': doc['name']})
+                        flag = True
+                        break
+    return sols

@@ -1,5 +1,7 @@
-# ur_analitics
+# JUDICIAL ANALYST
 
+Welcome to our small and crutch project.
 
-#dependensis
-pip install pymorphy2[fast], django, django-progressive-web-app
+AT this time it is a web-service for finding links in judgment.
+
+For starting server run command: sh strat.sh

@@ -1,4 +1,4 @@
-#UDICIAL ANALYST
+#JUDICIAL ANALYST
 
 Web-service for finding links in judgment.
 

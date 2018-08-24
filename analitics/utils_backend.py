@@ -80,8 +80,8 @@ def give_text(request):
                                 color_start = 1
                             if link['num_line'] == num_line and link['end'] == num:
                                 color_stop = 1
-                        ans.append({"word": word, "color_start": color_start, 'color_end':color_stop, "end": None})
-                    ans.append({"word": None, "color": None, "end": 1})
+                        ans.append({"word": word, "color_start": color_start, 'color_end': color_stop, "end": None})
+                    ans.append({"word": None, "color_start": None, 'color_end': None, "end": 1})
                 return render(request, 'analitics/solution.html',
                               {'text': ans, 'links': links, 'name': doc['solutions'][int(sol_num)]['name']})
 

@@ -10,6 +10,8 @@ logging.basicConfig(
     filename='manager.log')
 logger = logging
 
+morph = pymorphy2.MorphAnalyzer()
+
 dict_of_short = {'апк': 'арбитражно процессуальный кодекс', 'нк': 'налоговый кодекс', 'гк': 'гражданский кодекс', 'тк': 'трудовой кодекс',
                  'гпк': 'гражданский процессуальный кодекс', 'бк': 'бюджетный кодекс', 'жк': 'жилищный кодекс',
                  'кас': 'кодекс административного судопроизводства', 'зк': 'земельный кодекс', 'кзот': 'кодекс законов о труде',
@@ -18,6 +20,13 @@ dict_of_short = {'апк': 'арбитражно процессуальный к
                  'уик': 'уголовно исполнительный кодекс', 'упк': 'уголовно процессуальный кодекс ', 'ук': 'уголовный кодекс', 'ст': 'статья',
                  'ст.': 'статья', 'абз':  'абзац', 'абз.': 'абзац', 'гл.': 'глава', 'гл': 'глава'
                  }
+
+begin_module = re.compile('^(\W)?((пункт|подпункт|част|раздел|подраздел|глав|стат|абзац)'
+                          '(а|у|ой|ам|ах|е|ы|ами|ьей|ьёй|ью|ьям|ье|ьях|ьи|ья|ей|ьями|ов|ев|ь|ом|ем|и|ям|ями|ях)?$|'
+                          '^(ч|п|ст|пп|абз)(\.))$')
+
+end_module = re.compile('^((федерац)(ия|ии|ий|иям|ию|ией|иями|иях))$|'
+                        '^(рф)$|^(.*(фз))$|^(кодекс)(а|у|е|ом|ов|ами|ах|а|ы)(\W)?$')
 
 @asyncio.coroutine
 def read_file_line_by_line(file_name, code='utf-8'):
@@ -41,19 +50,17 @@ def read_file_line_by_line(file_name, code='utf-8'):
         yield 'stop'
 
 
-
-
-def clear_text(text, dict):
+def clear_text(text, dictionary):
     """
     func-deleter of special symbols
     :param text: input string
-    :param dict: dictionary of delimeters
+    :param dictionary: dictionary of delimeters
     :return: clear text
     """
     new_text = ''
     text = text.lower()
 
-    for key, values in dict.items():
+    for key, values in dictionary.items():
             text = text.replace(key, values)
     new_text = new_text + text
 
@@ -71,9 +78,6 @@ def full_form(text):
     return new_text
 
 
-morph = pymorphy2.MorphAnalyzer()
-
-
 def norm_form(link):
     """
     make all words in text initial form
@@ -87,14 +91,6 @@ def norm_form(link):
         new_link.append(word.normal_form)
     new_link = ' '.join(new_link)
     return new_link
-
-
-begin_module = re.compile('^(\W)?((пункт|подпункт|част|раздел|подраздел|глав|стат|абзац)'
-                          '(а|у|ой|ам|ах|е|ы|ами|ьей|ьёй|ью|ьям|ье|ьях|ьи|ья|ей|ьями|ов|ев|ь|ом|ем|и|ям|ями|ях)?$|'
-                          '^(ч|п|ст|пп|абз)(\.))$')
-
-end_module = re.compile('^((федерац)(ия|ии|ий|иям|ию|ией|иями|иях))$|'
-                        '^(рф)$|^(.*(фз))$|^(кодекс)(а|у|е|ом|ов|ами|ах|а|ы)(\W)?$')
 
 
 class LinkFinder(object):

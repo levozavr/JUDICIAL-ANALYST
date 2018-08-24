@@ -3,7 +3,6 @@ import logging
 import re
 import pymorphy2
 
-
 logging.basicConfig(
     format=u' %(levelname)-8s [%(asctime)s]  %(message)s',
     level=logging.DEBUG,
@@ -18,6 +17,7 @@ dict_of_short = {'апк': 'арбитражно процессуальный к
                  'уик': 'уголовно исполнительный кодекс', 'упк': 'уголовно процессуальный кодекс ', 'ук': 'уголовный кодекс', 'ст': 'статья',
                  'ст.': 'статья', 'абз':  'абзац', 'абз.': 'абзац', 'гл.': 'глава', 'гл': 'глава'
                  }
+
 
 @asyncio.coroutine
 def read_file_line_by_line(file_name, code='utf-8'):
@@ -41,8 +41,6 @@ def read_file_line_by_line(file_name, code='utf-8'):
         yield 'stop'
 
 
-
-
 def clear_text(text, dict):
     """
     func-deleter of special symbols
@@ -61,6 +59,11 @@ def clear_text(text, dict):
 
 
 def full_form(text):
+    """
+    function changes short form for a long form
+    :param text: text to change
+    :return: changed text
+    """
     new_text = ''
     for word in text.lower().split(' '):
         if word in dict_of_short:
@@ -98,7 +101,14 @@ end_module = re.compile('^((федерац)(ия|ии|ий|иям|ию|ией|и
 
 
 class LinkFinder(object):
+    """
+    class to find a structure of link
+    """
     def __init__(self, text):
+        """
+        init a class
+        :param text: text with link
+        """
         self.__text = text
         self.__essence = ''
         self.__numbers = []

@@ -11,6 +11,10 @@ import os
 
 
 def load_models():
+    """
+    function for loading text models when server starts
+    :return: None
+    """
     try:
         for item in Document.objects.all():
             parse(str(item.docfile))
@@ -18,10 +22,16 @@ def load_models():
         print(f"[ERROR {datetime.now()}] no models was loaded")
 
 
+"""loading models"""
 load_models()
 
 
 def check_file_in_base(filename):
+    """
+    function that checs is any file in base or not
+    :param filename: name of the file
+    :return: True and way to this file or False an ''
+    """
     documents_ = Document.objects.all()
     for doc in documents_:
         if doc.name == filename:
@@ -30,6 +40,11 @@ def check_file_in_base(filename):
 
 
 def upload(request):
+    """
+    logic of view-function that upload file
+    :param request: http request
+    :return: http response
+    """
     form = DocumentForm(request.POST, request.FILES)
     if form.is_valid():
         if request.POST['pass'] != "123456":
@@ -49,6 +64,11 @@ def upload(request):
 
 
 def give_sols(request):
+    """
+    part of logic view function to demonstrate results
+    :param request: http request
+    :return: http response
+    """
     try:
         search_str = request.GET['link']
         sols = searcher_sols(search_str)
@@ -63,7 +83,12 @@ def give_sols(request):
 
 
 def give_text(request):
-    if 1:
+    """
+    part of logic view function to demonstrate results
+    :param request: http request
+    :return: http response
+    """
+    try:
         sol_num = request.GET['sol_num']
         doc_name = request.GET['doc_name']
         links = searcher_links(request.GET['link'], sol_num, doc_name)
@@ -85,5 +110,5 @@ def give_text(request):
                 return render(request, 'analitics/solution.html',
                               {'text': ans, 'links': links, 'name': doc['solutions'][int(sol_num)]['name']})
 
-    else:
+    except Exception:
         return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")

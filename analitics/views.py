@@ -6,7 +6,11 @@ from analitics.finder.main import searcher_sols
 
 @cache_page(0)
 def upload_file(request):
-    # Handle file upload
+    """
+    function to upload document to base and make some prepossessing of it
+    :param request: http request to this page Post or Get
+    :return: http response of this page
+    """
     if request.method == 'POST':
         return upload(request)
     else:
@@ -17,6 +21,11 @@ def upload_file(request):
 
 @cache_page(0)
 def search(request):
+    """
+    function for loading main page and create a simple search by key words
+    :param request: http request to this page Post or Get
+    :return: http response of this page or redirect on page with results
+    """
     if request.method == 'POST':
         try:
             search_str = request.POST['find']
@@ -32,6 +41,11 @@ def search(request):
 
 @cache_page(0)
 def result(request):
+    """
+    function for loading page with results
+    :param request: http get request
+    :return: http response with results of searching
+    """
     if request.method == 'GET' and 'link' in request.GET:
         if 'doc_name' in request.GET and 'sol_num' in request.GET:
             return give_text(request)

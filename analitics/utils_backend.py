@@ -109,6 +109,6 @@ def give_text(request):
                     ans.append({"word": None, "color_start": None, 'color_end': None, "end": 1})
                 return render(request, 'analitics/solution.html',
                               {'text': ans, 'links': links, 'name': doc['solutions'][int(sol_num)]['name']})
-
+        return HttpResponseRedirect('/')
     except Exception:
         return HttpResponse(f"[ERROR {datetime.now()}]: Please don't use api with out interface")

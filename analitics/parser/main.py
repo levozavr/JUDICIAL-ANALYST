@@ -1,9 +1,16 @@
 from analitics.parser.utils import read_file_line_by_line, begin_module, end_module, clear_text, LinkFinder, full_form
 
+"""a global list"""
 documents = []
 
 
 def create_dict_of_links(document, name):
+    """
+    create a carcase for difficult structure of doc
+    :param document: text
+    :param name: of this doc
+    :return: structure of the doc
+    """
     dict_of_links = {'name': name, 'solutions': []}
     for num_sol, solution in document:
         dict_of_links['solutions'].append({'number': num_sol, 'name': ' ', 'lines': []})
@@ -15,6 +22,12 @@ def create_dict_of_links(document, name):
 
 
 def check_line(line, flag):
+    """
+    check then some rule of reading doc
+    :param line: text to check
+    :param flag: the latest condition
+    :return: flag
+    """
     if 'установил:' in line and not flag:
         return True
     if 'постановил:' in line or 'определил:' in line and flag:
@@ -23,6 +36,11 @@ def check_line(line, flag):
 
 
 def create_dict_of_solutions(document):
+    """
+    fucntion that generate dict of solutions and links
+    :param document: text
+    :return: structure
+    """
     dict_of_solution = {}
     dict_of_replace = {',': '', ' и ': ' ', ';': '', ':': ''}
     for num_sol, solution in document:
@@ -51,7 +69,7 @@ def parse(filename):
     """
     function that generate a special structure based on document
     :param filename: the way to the file in media folder
-    :return: a data structure for the document
+    :return: none
     """
     gen = read_file_line_by_line('./media/' + filename, code='cp1251')
     name = filename.split('/')

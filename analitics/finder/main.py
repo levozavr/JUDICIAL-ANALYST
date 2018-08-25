@@ -3,6 +3,11 @@ from analitics.parser.utils import norm_form, full_form, LinkFinder
 
 
 def structure(text):
+    """
+    function what get a structure of the link in search request
+    :param text: text with link
+    :return: link structure
+    """
     text_ = norm_form(full_form(text))
     search_link = LinkFinder(text_).mining()
     link = {'text': text, 'essence': search_link[0][0], 'number': search_link[0][1], 'document': search_link[0][2]}
@@ -10,6 +15,13 @@ def structure(text):
 
 
 def searcher_links(text, sol_number, doc_name):
+    """
+    function to find links in one solution in one doc
+    :param text: search request
+    :param sol_number: number of the solution
+    :param doc_name: name of the document
+    :return: list of links
+    """
     text = structure(text)
     links = []
     for doc in magic.documents:
@@ -25,6 +37,11 @@ def searcher_links(text, sol_number, doc_name):
 
 
 def searcher_sols(text):
+    """
+    function that find a sols there are this link
+    :param text: search request
+    :return: list of solutions
+    """
     text = structure(text)
     sols = []
     for doc in magic.documents:

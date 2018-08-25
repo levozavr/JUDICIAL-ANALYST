@@ -4,7 +4,9 @@ from django.db import models
 
 
 class Document(models.Model):
-
+    """
+    model to save an document and use it again later
+    """
     name = models.TextField(primary_key=True)
     docfile = models.FileField(upload_to='documents/', unique=True)
 

@@ -53,7 +53,10 @@ def upload(request):
         if not check_file:
             return HttpResponseRedirect('/')
         newdoc = Document(docfile=request.FILES['docfile'], name=str(request.FILES['docfile']))
-        newdoc.save()
+        try:
+            newdoc.save()
+        except Exception:
+            return HttpResponse(f"[ERROR {datetime.now()}]: Not right name of file please use unicode encoding")
         try:
             parse(str(newdoc.docfile))
         except Exception:

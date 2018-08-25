@@ -15,7 +15,9 @@ def create_dict_of_links(document, name):
     for num_sol, solution in document:
         dict_of_links['solutions'].append({'number': num_sol, 'name': ' ', 'lines': []})
         for num_line, line in enumerate(solution.split('\n')):
-            if num_line == 2:
+            if num_line == 2 and num_sol != 0:
+                dict_of_links['solutions'][num_sol]['name'] = line
+            if num_line == 1 and num_sol == 0:
                 dict_of_links['solutions'][num_sol]['name'] = line
             dict_of_links['solutions'][num_sol]['lines'].append({'number': num_line, 'text': line, 'links': []})
     return dict_of_links

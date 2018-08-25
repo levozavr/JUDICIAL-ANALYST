@@ -53,7 +53,8 @@ def parse(filename):
     :param filename: the way to the file in media folder
     :return: a data structure for the document
     """
-    gen = read_file_line_by_line('./media/' + filename, code='cp1251')
+    #gen = read_file_line_by_line('./media/' + filename, code='cp1251')
+    gen = read_file_line_by_line(filename, code='cp1251')
     name = filename.split('/')
     name = name[len(name)-1]
     document = [_ for _ in enumerate(gen)]

@@ -2,6 +2,9 @@ from django import forms
 
 
 class DocumentForm(forms.Form):
+    """
+    form for loading document from admin
+    """
     docfile = forms.FileField(
         label='Select a file',
     )

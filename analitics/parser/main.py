@@ -1,20 +1,35 @@
 from analitics.parser.utils import read_file_line_by_line, begin_module, end_module, clear_text, LinkFinder, full_form
 
+"""a global list"""
 documents = []
 
 
 def create_dict_of_links(document, name):
+    """
+    create a carcase for difficult structure of doc
+    :param document: text
+    :param name: of this doc
+    :return: structure of the doc
+    """
     dict_of_links = {'name': name, 'solutions': []}
     for num_sol, solution in document:
         dict_of_links['solutions'].append({'number': num_sol, 'name': ' ', 'lines': []})
         for num_line, line in enumerate(solution.split('\n')):
-            if num_line == 2:
+            if num_line == 2 and num_sol != 0:
+                dict_of_links['solutions'][num_sol]['name'] = line
+            if num_line == 1 and num_sol == 0:
                 dict_of_links['solutions'][num_sol]['name'] = line
             dict_of_links['solutions'][num_sol]['lines'].append({'number': num_line, 'text': line, 'links': []})
     return dict_of_links
 
 
 def check_line(line, flag):
+    """
+    check then some rule of reading doc
+    :param line: text to check
+    :param flag: the latest condition
+    :return: flag
+    """
     if 'установил:' in line and not flag:
         return True
     if 'постановил:' in line or 'определил:' in line and flag:
@@ -23,6 +38,11 @@ def check_line(line, flag):
 
 
 def create_dict_of_solutions(document):
+    """
+    fucntion that generate dict of solutions and links
+    :param document: text
+    :return: structure
+    """
     dict_of_solution = {}
     dict_of_replace = {',': '', ' и ': ' ', ';': '', ':': ''}
     for num_sol, solution in document:
@@ -51,7 +71,7 @@ def parse(filename):
     """
     function that generate a special structure based on document
     :param filename: the way to the file in media folder
-    :return: a data structure for the document
+    :return: none
     """
     #gen = read_file_line_by_line('./media/' + filename, code='cp1251')
     gen = read_file_line_by_line(filename, code='cp1251')
@@ -74,7 +94,7 @@ def parse(filename):
                                                     ['lines'][key_line]['text'].split(' ')):
                         if line[0] <= num_word <= line[1]:
                             link_text += word+' '
-                    place = {'doc_name': name, 'sol_num': key_sol,
+                    place = {'doc_name': name, 'sol_name': dict_of_links['solutions'][key_sol]['name'], 'sol_num': key_sol,
                              'line_num': key_line, 'begin': line[0], 'end': line[1]}
                     result = LinkFinder(clear_text(full_form(link_text.lower()), dict_of_replace)).mining()
                     if result:
@@ -86,4 +106,3 @@ def parse(filename):
                         link = {'text': link_text, 'essence': '', 'number': '', 'document': '', 'place': place}
                         dict_of_links['solutions'][key_sol]['lines'][key_line]['links'].append(link)
     documents.append(dict_of_links)
-    return str(dict_of_links)

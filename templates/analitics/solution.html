@@ -6,9 +6,20 @@
 {% block content %}
     <!--<main>-->
      <td width="80%" height="100%" align="left" valign="top">
-     {% if text  %}
+     {% if text %}
         {% for line in text %}
-            {{ line }}<br>
+            {% if line.color_start %}
+                <span style="color:red;font-weight:bold">
+            {% endif %}
+            {% if line.word %}
+                {{ line.word }}&nbsp;
+            {% endif %}
+            {% if line.color_end %}
+                </span>
+            {% endif %}
+            {% if line.end %}
+                <br>
+            {% endif %}
          {% endfor %}
      {% endif %}
      </td>

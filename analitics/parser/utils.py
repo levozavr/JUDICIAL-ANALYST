@@ -3,7 +3,6 @@ import logging
 import re
 import pymorphy2
 
-
 logging.basicConfig(
     format=u' %(levelname)-8s [%(asctime)s]  %(message)s',
     level=logging.DEBUG,
@@ -21,12 +20,14 @@ dict_of_short = {'апк': 'арбитражно процессуальный к
                  'ст.': 'статья', 'абз':  'абзац', 'абз.': 'абзац', 'гл.': 'глава', 'гл': 'глава'
                  }
 
+
 begin_module = re.compile('^(\W)?((пункт|подпункт|част|раздел|подраздел|глав|стат|абзац)'
                           '(а|у|ой|ам|ах|е|ы|ами|ьей|ьёй|ью|ьям|ье|ьях|ьи|ья|ей|ьями|ов|ев|ь|ом|ем|и|ям|ями|ях)?$|'
                           '^(ч|п|ст|пп|абз)(\.))$')
 
 end_module = re.compile('^((федерац)(ия|ии|ий|иям|ию|ией|иями|иях))$|'
                         '^(рф)$|^(.*(фз))$|^(кодекс)(а|у|е|ом|ов|ами|ах|а|ы)(\W)?$')
+
 
 @asyncio.coroutine
 def read_file_line_by_line(file_name, code='utf-8'):
@@ -68,6 +69,11 @@ def clear_text(text, dictionary):
 
 
 def full_form(text):
+    """
+    function changes short form for a long form
+    :param text: text to change
+    :return: changed text
+    """
     new_text = ''
     for word in text.lower().split(' '):
         if word in dict_of_short:
@@ -94,7 +100,14 @@ def norm_form(link):
 
 
 class LinkFinder(object):
+    """
+    class to find a structure of link
+    """
     def __init__(self, text):
+        """
+        init a class
+        :param text: text with link
+        """
         self.__text = text
         self.__essence = ''
         self.__numbers = []
